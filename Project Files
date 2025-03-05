@@ -1,0 +1,29 @@
+Exicutable files
+
+INFLATION RATE DIFFERENCE
+InflationRateDifference = 
+VAR CurrentYear = VALUE('global_inflation_data'[Year])  
+VAR CurrentCountry = 'global_inflation_data'[country name]  
+VAR CurrentInflationRate = 'global_inflation_data'[InflationRate]
+
+VAR PreviousInflationRate = 
+    CALCULATE(
+        MAX('global_inflation_data'[InflationRate]),  
+        'global_inflation_data'[Year] = CurrentYear - 1 &&  
+        'global_inflation_data'[country name] = CurrentCountry
+    )
+
+RETURN 
+    IF(ISBLANK(PreviousInflationRate), BLANK(), CurrentInflationRate - PreviousInflationRate)
+
+AVERAGE INFLATION RATE
+AverageInflationRate = AVERAGE('global_inflation_data'[InflationRate])
+
+MAXIMUM INFLATION RATE
+MaxInflationRate = MAX('global_inflation_data'[InflationRate])
+
+REGION COUNT
+RegionCount = DISTINCTCOUNT('global_inflation_data'[Region])
+
+TOTAL INFLATION RATE
+TotalInflationRate = SUM(global_inflation_data[InflationRate])
